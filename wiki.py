@@ -75,10 +75,28 @@ def make_table(data, cur, conn):
                 limit += 1
             conn.commit()
 
+def calculations(filename, cur, conn):
+    city_dict = {}
+    cur.execute("SELECT city, attendance FROM Harry_Styles")
+    results = cur.fetchall()
+    for result in results:
+        if result[0] not in city_dict:
+            city_dict[result[0]] = 0
+        city_dict[result[0]] += result[1]
+    f = open(filename, "w")
+    f.write("Harry Styles Concert Attendance Totals Based On City\n")
+    for city in city_dict:
+        f.write(city+": "+str(city_dict[city])+"\n")
+    f.close()
+
 
 def main():
     harry_data = concert_data()
     cur, conn = make_database('concerts.db')
     make_table(harry_data, cur, conn)
+    calculations("calculations.txt", cur, conn)
+    file = open("calculations.txt", "r")
+    print(file.read())
+    file.close()
 
 main()
