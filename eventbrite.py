@@ -21,10 +21,17 @@ def get_capacity(venue_name):
     resp = requests.get(url)
     data = json.loads(resp.text)
     print(data)
-    return data['capacity']
+    # return data['capacity']
 
     # print('Exception')
     # return None
+    
+    tup = []
+    for i in data['resultsPage']['results']:
+        capacity = i['venue'][2]['capacity']
+        tup.append((capacity))
+    print(tup)
+    return tup
 
 def create_venue_table(cur,conn,cities):
     cur.execute("CREATE TABLE IF NOT EXISTS venue_data (id INTEGER PRIMARY KEY, name TEXT)")
