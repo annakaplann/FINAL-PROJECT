@@ -4,6 +4,7 @@ import requests
 import sqlite3
 import matplotlib
 import re
+import sys
 
 api_key = "Mjk2NjIyNTN8MTY2OTY3Nzg5Mi40OTk3MTM0"
 
@@ -51,7 +52,7 @@ def make_state_id_table(data, cur, conn):
     for state in data:
         if state not in state_list:
             state_list.append(state)
-    cur.execute("CREATE TABLE IF NOT EXISTS State_id (state_id INTEGER PRIMARY KEY, state TEXT UNIQUE)")
+    cur.execute("CREATE TABLE IF NOT EXISTS State_id (state_id INTEGER PRIMARY KEY, state TEXT)")
     for x in range(len(state_list)):
         if limit < 25:
             cur.execute("INSERT OR IGNORE INTO State_id (state_id, state) VALUES (?, ?)", (x,state_list[x]))
@@ -67,7 +68,7 @@ def make_location_table(data, cur, conn):
             cur.execute("SELECT state_id FROM State_id WHERE state = ?", (concert[0],))
             location_id = int(cur.fetchone()[0])
             score = concert[1]
-            cur.execute("INSERT INTO Location_scores (date, location_id, score) values(?, ?, ?)", (date, location_id, score))
+            cur.execute("INSERT OR IGNORE INTO Location_scores (date, location_id, score) values(?, ?, ?)", (date, location_id, score))
             limit += 1
     conn.commit()
 
@@ -77,7 +78,13 @@ def main():
     taylor_data = get_score("taylor", "swift")
     cur, conn = make_database("concerts.db")
     make_state_id_table(state_data, cur, conn)
+    count = cur.execute("SELECT COUNT(*) FROM State_id")
+    if count != 55:
+        make_state_id_table(state_data, cur, conn)
+        sys.exit()
     make_location_table(taylor_data, cur, conn)
+    
+
 
 
 if __name__ == "__main__":
