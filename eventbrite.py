@@ -28,32 +28,69 @@ def get_population(name):
     else:
         print("Error:", resp.status_code, resp.text)     
     
-def create_population_table(cur,conn,cities):
-    cur.execute("CREATE TABLE IF NOT EXISTS population_data (id INTEGER PRIMARY KEY, name TEXT)")
-    dict = []    
-    names = get_population(cities)
-    try:
-        for name in names:
-            dict.append(name)
-    except:
-        pass
-    try:
-        for i in range(1, len(dict)):
-            cur.execute("INSERT OR IGNORE INTO population_data (displayName,capacity) VALUES (?,?)",(i,dict[i-1]))
+def create_population_table(tup, cur,conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS population_data (city TEXT PRIMARY KEY, population TEXT)")
+    limit = 0
+    for pop in tup:
+        if limit < 25:
+            city = pop[0]
+            population = pop[1]
+            rows = cur.execute("SELECT COUNT(*) FROM population_data")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO population_data (city, population) VALUES (?, ?)", (city, population))
+            rows2 = cur.execute("SELECT COUNT(*) FROM population_data")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
             conn.commit()
-    except:
-        pass
+
+
+def make_table(data, cur, conn):
+    cur.execute("CREATE TABLE IF NOT EXISTS Harry_Styles (date TEXT PRIMARY KEY, city TEXT, attendance INTEGER, capacity INTEGER)")
+    limit = 0
+    for concert in data:
+        if limit < 25:
+            date = concert[0]
+            city = concert[1]
+            attendance = concert[2]
+            capacity = concert[3]
+            rows = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO Harry_Styles (date, city, attendance, capacity) VALUES (?, ?, ?, ?)", (date, city, attendance, capacity))
+            rows2 = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
+            conn.commit()
+
+
+def calculations(filename, cur, conn):
+    pop_dict = {}
+    # cur.execute("SELECT city, attendance FROM Harry_Styles")
+    results = cur.fetchall()
+    for result in results:
+        if result[0] not in pop_dict:
+            pop_dict[result[0]] = 0
+        pop_dict[result[0]] += result[1]
+    f = open(filename, "w")
+    # f.write("Harry Styles Concert Attendance Totals Based On City\n")
+    for pop in pop_dict:
+        f.write(pop+": "+str(pop_dict[pop])+"\n")
+    f.close()
+
 
 def main():
-    cur, conn = setUpDatabase('database.db')
+    cur, conn = setUpDatabase('dataconcertsbase.db')
     name = "San Francisco"
     cities = get_population(name)
     create_population_table(cur,conn,cities)
+    calculations("calculations.txt", cur, conn)
+    file = open("calculations.txt", "r")
+    print(file.read())
+    file.close()
     print('Done')
-
     
-if __name__ == "__main__":
-    main()
+main()
 
 
 
