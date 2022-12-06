@@ -75,7 +75,7 @@ def make_location_table(data, cur, conn):
 def main():
     state_data = get_state()
     taylor_data = get_score("taylor", "swift")
-    cur, conn = make_database("taylor_concerts.db")
+    cur, conn = make_database("concerts.db")
     make_state_id_table(state_data, cur, conn)
     make_location_table(taylor_data, cur, conn)
 
