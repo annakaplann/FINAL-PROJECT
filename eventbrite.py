@@ -14,38 +14,38 @@ def setUpDatabase(db_name):
 
 
 def get_population(city_list):
-    population_list = []
-    name_list = [] 
+    #make one list
+    data = []
+    # population_list = []
+    # name_list = [] 
     for name in city_list:
         url = 'https://api.api-ninjas.com/v1/city?name={}'.format(name)
         resp = requests.get(url, headers={'X-Api-Key': 'ofpPfVqgtyHp/rCepavDTg==Rk0NxgPw543VyZez'})
         #print(resp)
         data = json.loads(resp.text)
-        if resp.status_code == requests.codes.ok:
+        print(data)
+        #if resp.status_code == requests.codes.ok:
             #print(resp.text)
-            print(data[0])
-            population = data[0]['population']
-            name = data[0]['name']
-            population_list.append(population)
-            name_list.append(name)
-        else:
-            print("Error:", resp.status_code, resp.text) 
-    return name_list, population_list  
+            #print(data[0])
+        population = data[0]['population']
+        name = data[0]['name']
+        data.append([(name, population)])
+        #else:
+            #print("Error:", resp.status_code, resp.text) 
+    print(data)
+    return data  
     
-def create_population_table(name_list, population_list, cur,conn):
+def create_population_table(data, cur,conn):
     cur.execute("CREATE TABLE IF NOT EXISTS population_data (city TEXT PRIMARY KEY, population TEXT)")
     #limit = 0
-    for pop in name_list, population_list:
+    for pop in data:
+        print(pop)
         #if limit < 25:
         city = pop[0]
         population = pop[1]
-        rows = cur.execute("SELECT COUNT(*) FROM population_data")
-        num = rows.fetchone()[0]
+        #rows = cur.execute("SELECT COUNT(*) FROM population_data")
+        #num = rows.fetchone()[0]
         cur.execute("INSERT OR IGNORE INTO population_data (city, population) VALUES (?, ?)", (city, population))
-        #rows2 = cur.execute("SELECT COUNT(*) FROM population_data")
-        #num2 = rows2.fetchone()[0]
-            #if num2 > num:
-                #limit += 1
         conn.commit()
 
 # def calculations(filename, cur, conn):
@@ -65,9 +65,9 @@ def create_population_table(name_list, population_list, cur,conn):
 
 def main():
     cur, conn = setUpDatabase('concerts.db')
-    city_list = ['San Francisco', 'Los Angeles', 'Nashville', 'Chicago', 'New York City', 'Boston', 'Washingston, D.C.', 'Irving', 'Austin', 'London', 'Glasgow', 'Berlin', 'Amsterdam', 'Singapore', 'Sydney', 'Melbourne', 'Auckland', 'Tokyo', 'Basel', 'Paris', 'Amsterdam']
-    name_list, population_list = get_population(city_list)
-    create_population_table(name_list, population_list,cur,conn)
+    city_list = ['San Francisco', 'Los Angeles', 'Nashville', 'Chicago', 'New York', 'Boston']
+    data = get_population(city_list)
+    create_population_table(data,cur,conn)
     # calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())
