@@ -27,11 +27,12 @@ def get_capacity(venue_name):
     # return None
     
     tup = []
-    for i in data['resultsPage']['results']:
-        capacity = i['venue'][2]['capacity']
-        tup.append((capacity))
-    print(tup)
-    return tup
+    for i in data['resultsPage']:
+        print(i)
+        #capacity = i['venue'][2]['capacity']
+        #tup.append((capacity))
+    #print(tup)
+    #return tup
 
 def create_venue_table(cur,conn,cities):
     cur.execute("CREATE TABLE IF NOT EXISTS venue_data (id INTEGER PRIMARY KEY, name TEXT)")
