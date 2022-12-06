@@ -3,7 +3,7 @@ import os
 import re
 import requests
 import sqlite3
-import matplotlib
+import plotly.express as px
 
 def concert_data():
 
@@ -89,6 +89,11 @@ def calculations(filename, cur, conn):
         f.write(city+": "+str(city_dict[city])+"\n")
     f.close()
 
+#def make_graph(data):
+
+    #figure = px.bar()
+    #figure.show()
+
 
 def main():
     harry_data = concert_data()
@@ -96,7 +101,9 @@ def main():
     make_table(harry_data, cur, conn)
     calculations("calculations.txt", cur, conn)
     file = open("calculations.txt", "r")
-    print(file.read())
+    #print(file.read())
+    figure = px.bar()
+    figure.show(x = "cities", y = "attendance")
     file.close()
 
 main()
