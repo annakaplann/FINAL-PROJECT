@@ -3,7 +3,7 @@ import os
 import re
 import requests
 import sqlite3
-import matplotlib
+import matplotlib.pyplot as plt
 
 def concert_data():
 
@@ -89,6 +89,30 @@ def calculations(filename, cur, conn):
         f.write(city+": "+str(city_dict[city])+"\n")
     f.close()
 
+def visualization(cur, conn):
+    cur.execute("SELECT city, attendance FROM Harry_Styles")
+    data = cur.fetchall()
+    data2 = sorted(data, key = lambda x: x[1], reverse=True)
+    conn.commit()
+    
+    city_list = []
+    attendance_list = []
+    for item in data2:
+        if len(city_list) < 12:
+            city_list.append(item[0])
+            attendance_list.append(item[1])
+    
+    plt.figure()
+    plt.bar(city_list, attendance_list, color = 'hotpink')
+    plt.title("Harry Styles Total Concert Attendance In Top 10 Cities")
+    plt.xlabel("Cities")
+    plt.ylabel("Attendance")
+    plt.xticks(rotation = 45)
+    plt.tight_layout()
+    plt.colorbar
+    plt.show()
+
+
 
 def main():
     harry_data = concert_data()
@@ -96,7 +120,7 @@ def main():
     make_table(harry_data, cur, conn)
     calculations("calculations.txt", cur, conn)
     file = open("calculations.txt", "r")
-    print(file.read())
     file.close()
+    visualization(cur, conn)
 
 main()
