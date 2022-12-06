@@ -23,7 +23,7 @@ def get_population(name):
         print(resp.text)
         for i in data:
             population = i['population']
-            tup.append((population))
+            tup.append(population)
         return tup
     else:
         print("Error:", resp.status_code, resp.text)     
@@ -44,50 +44,30 @@ def create_population_table(tup, cur,conn):
                 limit += 1
             conn.commit()
 
-
-def make_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Harry_Styles (date TEXT PRIMARY KEY, city TEXT, attendance INTEGER, capacity INTEGER)")
-    limit = 0
-    for concert in data:
-        if limit < 25:
-            date = concert[0]
-            city = concert[1]
-            attendance = concert[2]
-            capacity = concert[3]
-            rows = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
-            num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO Harry_Styles (date, city, attendance, capacity) VALUES (?, ?, ?, ?)", (date, city, attendance, capacity))
-            rows2 = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
-            num2 = rows2.fetchone()[0]
-            if num2 > num:
-                limit += 1
-            conn.commit()
-
-
-def calculations(filename, cur, conn):
-    pop_dict = {}
-    # cur.execute("SELECT city, attendance FROM Harry_Styles")
-    results = cur.fetchall()
-    for result in results:
-        if result[0] not in pop_dict:
-            pop_dict[result[0]] = 0
-        pop_dict[result[0]] += result[1]
-    f = open(filename, "w")
-    # f.write("Harry Styles Concert Attendance Totals Based On City\n")
-    for pop in pop_dict:
-        f.write(pop+": "+str(pop_dict[pop])+"\n")
-    f.close()
+# def calculations(filename, cur, conn):
+#     pop_dict = {}
+#     cur.execute("SELECT city, population FROM population_data")
+#     results = cur.fetchall()
+#     for result in results:
+#         if result[0] not in pop_dict:
+#             pop_dict[result[0]] = 0
+#         pop_dict[result[0]] += result[1]
+#     f = open(filename, "w")
+#     f.write("Population of Cities Based On Concert Venues\n")
+#     for pop in pop_dict:
+#         f.write(pop+": "+str(pop_dict[pop])+"\n")
+#     f.close()
 
 
 def main():
-    cur, conn = setUpDatabase('dataconcertsbase.db')
-    name = "San Francisco"
+    cur, conn = setUpDatabase('concerts.db')
+    name = "Chicago"
     cities = get_population(name)
     create_population_table(cur,conn,cities)
-    calculations("calculations.txt", cur, conn)
-    file = open("calculations.txt", "r")
-    print(file.read())
-    file.close()
+    # calculations("calculations.txt", cur, conn)
+    # file = open("calculations.txt", "r")
+    # print(file.read())
+    # file.close()
     print('Done')
     
 main()
