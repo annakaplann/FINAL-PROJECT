@@ -4,9 +4,7 @@ import requests
 import sqlite3
 import matplotlib
 
-API_KEY = "LZZ5WPD7HVNPP3QQ3KKE"
-
-# https://api.songkick.com/api/3.0/search/venues.json?query={venue_name}&apikey=LZZ5WPD7HVNPP3QQ3KKE
+API_KEY = "ofpPfVqgtyHp/rCepavDTg==Rk0NxgPw543VyZez"
 
 def setUpDatabase(db_name):
     path = os.path.dirname(os.path.abspath(__file__))
@@ -15,28 +13,25 @@ def setUpDatabase(db_name):
     return cur, conn
 
 
-def get_capacity(venue_name):  
-    url = f'https://api.songkick.com/api/3.0/search/venues.json?query={venue_name}&apikey={API_KEY}'
-
-    resp = requests.get(url)
+def get_population(name): 
+    url = 'https://api.api-ninjas.com/v1/city?name={}'.format(name)
+    resp = requests.get(url, headers={'X-Api-Key': 'ofpPfVqgtyHp/rCepavDTg==Rk0NxgPw543VyZez'})
+    print(resp)
     data = json.loads(resp.text)
-    print(data)
-    # return data['capacity']
-
-    # print('Exception')
-    # return None
-    
     tup = []
-    for i in data['resultsPage']['results']:
-        capacity = i['venue'][2]['capacity']
-        tup.append((capacity))
-    print(tup)
-    return tup
-
-def create_venue_table(cur,conn,cities):
-    cur.execute("CREATE TABLE IF NOT EXISTS venue_data (id INTEGER PRIMARY KEY, name TEXT)")
+    if resp.status_code == requests.codes.ok:
+        print(resp.text)
+        for i in data:
+            population = i['population']
+            tup.append((population))
+        return tup
+    else:
+        print("Error:", resp.status_code, resp.text)     
+    
+def create_population_table(cur,conn,cities):
+    cur.execute("CREATE TABLE IF NOT EXISTS population_data (id INTEGER PRIMARY KEY, name TEXT)")
     dict = []    
-    names = get_capacity(cities)
+    names = get_population(cities)
     try:
         for name in names:
             dict.append(name)
@@ -44,16 +39,16 @@ def create_venue_table(cur,conn,cities):
         pass
     try:
         for i in range(1, len(dict)):
-            cur.execute("INSERT OR IGNORE INTO venue_data (displayName,capacity) VALUES (?,?)",(i,dict[i-1]))
+            cur.execute("INSERT OR IGNORE INTO population_data (displayName,capacity) VALUES (?,?)",(i,dict[i-1]))
             conn.commit()
     except:
         pass
 
 def main():
     cur, conn = setUpDatabase('database.db')
-    event_id = 3003
-    cities = get_capacity(event_id)
-    create_venue_table(cur,conn,cities)
+    name = "San Francisco"
+    cities = get_population(name)
+    create_population_table(cur,conn,cities)
     print('Done')
 
     
