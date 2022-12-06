@@ -8,20 +8,23 @@ import sys
 
 api_key = "Mjk2NjIyNTN8MTY2OTY3Nzg5Mi40OTk3MTM0"
 
-def get_state():
-    url = f'https://api.seatgeek.com/2/events?per_page=1000&client_id={api_key}'
+def get_venue():
+    url = f'https://api.seatgeek.com/2/venues?per_page=101&client_id={api_key}'
     try:
         resp = requests.get(url)
         data = json.loads(resp.text)
     except:
         return None
-    city_lst = []
-    for item in data['events']:
-        city_lst.append(item['venue']['state'])
-    #print(city_lst)
-    return city_lst
+    venue_lst = []
+    for item in data['venues']:
+        venue = item['name']
+        city = item['city']
+        score = item['score']
+        venue_lst.append((venue, city, score))
+    #print(venue_lst)
+    return venue_lst
 
-def get_score(first_name, last_name):
+'''def get_score(first_name, last_name):
     url = f'https://api.seatgeek.com/2/events?per_page=100&performers.slug={first_name}-{last_name}&client_id={api_key}'
     try:
         resp = requests.get(url)
@@ -38,7 +41,7 @@ def get_score(first_name, last_name):
         score = item['venue']['score']
         tup.append((city,score,date[0]))
     #print(tup)
-    return tup
+    return tup'''
 
 def make_database(database_name):
     path = os.path.dirname(os.path.abspath(__file__))
@@ -46,43 +49,39 @@ def make_database(database_name):
     cur = conn.cursor()
     return cur, conn
 
-def make_state_id_table(data, cur, conn):
-    state_list = []
+def make_venue_id_table(data, cur, conn):
+    venue_list = []
     limit = 0
-    for state in data:
-        if state not in state_list:
-            state_list.append(state)
-    cur.execute("CREATE TABLE IF NOT EXISTS State_id (state_id INTEGER PRIMARY KEY, state TEXT)")
-    for x in range(len(state_list)):
+    for venue in data:
+        if venue[0] not in venue_list:
+            venue_list.append(venue[0])
+    cur.execute("CREATE TABLE IF NOT EXISTS Venue_id (venue_id INTEGER PRIMARY KEY, venue TEXT)")
+    for x in range(len(venue_list)):
         if limit < 25:
-            cur.execute("INSERT OR IGNORE INTO State_id (state_id, state) VALUES (?, ?)", (x,state_list[x]))
+            cur.execute("INSERT OR IGNORE INTO Venue_id (venue_id, venue) VALUES (?, ?)", (x,venue_list[x]))
             limit += 1
-    conn.commit()
+            conn.commit()
 
 def make_location_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (date TEXT PRIMARY KEY, location_id TEXT, score NUMBER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (location_id INTEGER PRIMARY KEY, city TEXT, score NUMBER)")
     limit = 0
     for concert in data:
-        if limit < 25:
-            date = concert[2]
-            cur.execute("SELECT state_id FROM State_id WHERE state = ?", (concert[0],))
+       if limit < 25:
+            cur.execute("SELECT venue_id FROM Venue_id WHERE venue = ?", (concert[0],))
             location_id = int(cur.fetchone()[0])
-            score = concert[1]
-            cur.execute("INSERT OR IGNORE INTO Location_scores (date, location_id, score) values(?, ?, ?)", (date, location_id, score))
+            city = concert[1]
+            score = concert[2]
+            cur.execute("INSERT OR IGNORE INTO Location_scores (location_id, city, score) values(?, ?, ?)", (location_id, city, score))
             limit += 1
-    conn.commit()
+            conn.commit()
 
 
 def main():
-    state_data = get_state()
-    taylor_data = get_score("taylor", "swift")
+    venue_data = get_venue()
     cur, conn = make_database("concerts.db")
-    make_state_id_table(state_data, cur, conn)
-    count = cur.execute("SELECT COUNT(*) FROM State_id")
-    if count != 55:
-        make_state_id_table(state_data, cur, conn)
-        sys.exit()
-    make_location_table(taylor_data, cur, conn)
+    make_venue_id_table(venue_data, cur, conn)
+    make_location_table(venue_data, cur, conn)
+    
     
 
 
