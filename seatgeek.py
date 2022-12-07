@@ -24,25 +24,6 @@ def get_venue():
     #print(venue_lst)
     return venue_lst
 
-'''def get_score(first_name, last_name):
-    url = f'https://api.seatgeek.com/2/events?per_page=100&performers.slug={first_name}-{last_name}&client_id={api_key}'
-    try:
-        resp = requests.get(url)
-        data = json.loads(resp.text)
-        #print(data)
-    except:
-        return None
-    tup = []
-    for item in data['events']:
-        old_date = item['datetime_utc']
-        reg_ex = "(\d{4}-\d{2}-\d{2}).*"
-        date = re.findall(reg_ex, old_date)
-        city = item['venue']['state']
-        score = item['venue']['score']
-        tup.append((city,score,date[0]))
-    #print(tup)
-    return tup'''
-
 def make_database(database_name):
     path = os.path.dirname(os.path.abspath(__file__))
     conn = sqlite3.connect(path+'/'+database_name)
@@ -58,21 +39,31 @@ def make_venue_id_table(data, cur, conn):
     cur.execute("CREATE TABLE IF NOT EXISTS Venue_id (venue_id INTEGER PRIMARY KEY, venue TEXT)")
     for x in range(len(venue_list)):
         if limit < 25:
+            rows = cur.execute("SELECT COUNT(*) FROM Venue_id")
+            num = rows.fetchone()[0]
             cur.execute("INSERT OR IGNORE INTO Venue_id (venue_id, venue) VALUES (?, ?)", (x,venue_list[x]))
-            limit += 1
+            rows2 = cur.execute("SELECT COUNT(*) FROM Venue_id")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
             conn.commit()
 
 def make_location_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (location_id INTEGER PRIMARY KEY, city TEXT, score NUMBER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (venue_id INTEGER PRIMARY KEY, city TEXT, score NUMBER)")
     limit = 0
     for concert in data:
        if limit < 25:
             cur.execute("SELECT venue_id FROM Venue_id WHERE venue = ?", (concert[0],))
-            location_id = int(cur.fetchone()[0])
+            venue_id = int(cur.fetchone()[0])
             city = concert[1]
             score = concert[2]
-            cur.execute("INSERT OR IGNORE INTO Location_scores (location_id, city, score) values(?, ?, ?)", (location_id, city, score))
-            limit += 1
+            rows = cur.execute("SELECT COUNT(*) FROM Location_scores")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO Location_scores (venue_id, city, score) values(?, ?, ?)", (venue_id, city, score))
+            rows2 = cur.execute("SELECT COUNT(*) FROM Location_scores")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
             conn.commit()
 
 
@@ -81,7 +72,7 @@ def main():
     cur, conn = make_database("concerts.db")
     make_venue_id_table(venue_data, cur, conn)
     make_location_table(venue_data, cur, conn)
-    
+    print("Done")
     
 
 
