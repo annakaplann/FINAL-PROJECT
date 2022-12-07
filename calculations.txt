@@ -1,1 +1,418 @@
+Harry Styles Concert Attendance Totals Based On City
+San Francisco: 3188
+Los Angeles: 5727
+Nashville: 53472
+Chicago: 173626
+New York City: 412860
+Boston: 36420
+Washington, D.C.: 37983
+Irving: 4077
+Austin: 88678
+London: 187216
+Glasgow: 57102
+Berlin: 16399
+Amsterdam: 32159
+Singapore: 8240
+Sydney: 16709
+Melbourne: 10902
+Auckland: 7575
+Tokyo: 3600
+Basel: 6725
+Paris: 27020
+Antwerp: 30401
+Stockholm: 44860
+Copenhagen: 10580
+Oslo: 33091
+Oberhausen: 10591
+Hamburg: 52614
+Munich: 24294
+Barcelona: 10338
+Madrid: 26098
+Milan: 10374
+Bologna: 25359
+Mannheim: 9015
+Birmingham: 12771
+Manchester: 113004
+Dublin: 63034
+Perth: 9256
+Brisbane: 10658
+Manila: 10130
+Hong Kong: 4097
+Bangkok: 2893
+Kobe: 4754
+Chiba: 8908
+Buenos Aires: 9523
+Santiago: 12370
+Rio de Janeiro: 15244
+São Paulo: 7200
+Mexico City: 33943
+Dallas: 34143
+Houston: 30779
+Sunrise: 34854
+Duluth: 12007
+Hershey: 15468
+Philadelphia: 35954
+Toronto: 53997
+Detroit: 34098
+Indianapolis: 15566
+Saint Paul: 35028
+Denver: 30983
+Vancouver: 14134
+Seattle: 13535
+Sacramento: 31310
+San Jose: 32455
+Inglewood: 289353
+Las Vegas: 13413
+San Antonio: 17298
+St. Louis: 17171
+Orlando: 16898
+Tampa: 18183
+Raleigh: 18616
+Pittsburgh: 18369
+Cleveland: 17786
+Uncasville: 18159
+Atlanta: 31146
+Milwaukee: 16881
+Tacoma: 21469
+Portland: 17890
+Glendale: 16846
+San Diego: 13728
+North Little Rock: 16691
+Elmont: 16777
+Budapest: 12070
+Prague: 15616
+Vienna: 10910
+Kraków: 15158
+Cologne: 16069
+Turin: 14513
+Lisbon: 12671
 
+Percentage of City Population Who Attended Concert
+San Francisco: 0.0009
+Los Angeles: 0.0004
+Nashville: 0.0021
+Chicago: 0.0004
+Boston: 0.0008
+London: 0.0009
+Amsterdam: 0.0058
+Singapore: 0.0008
+Melbourne: 0.0004
+Auckland: 0.0052
+Tokyo: 0.0001
+Paris: 0.0011
+Amsterdam: 0.0127
+Antwerp: 0.023
+Stockholm: 0.0088
+Copenhagen: 0.0098
+Oberhausen: 0.0502
+Hamburg: 0.0057
+Munich: 0.0077
+Barcelona: 0.0023
+Madrid: 0.0037
+Milan: 0.0077
+Bologna: 0.0326
+Mannheim: 0.0291
+Birmingham: 0.0044
+Manchester: 0.005
+London: 0.0027
+Dublin: 0.0108
+Perth: 0.0045
+Melbourne: 0.0018
+Brisbane: 0.0042
+Manila: 0.0004
+Singapore: 0.0006
+Hong Kong: 0.0006
+Kobe: 0.0031
+Chiba: 0.0091
+Santiago: 0.0018
+Mexico City: 0.0016
+Dallas: 0.0029
+Houston: 0.0026
+Duluth: 0.1005
+Nashville: 0.0171
+Hershey: 1.0637
+Philadelphia: 0.003
+Toronto: 0.0032
+Boston: 0.0034
+Detroit: 0.0045
+Indianapolis: 0.0098
+Chicago: 0.0021
+Denver: 0.0047
+Vancouver: 0.0062
+Seattle: 0.0036
+Sacramento: 0.0077
+Inglewood: 0.3116
+Las Vegas: 0.0064
+Denver: 0.006
+Dallas: 0.0031
+St. Louis: 0.0085
+Philadelphia: 0.0034
+Detroit: 0.0052
+Chicago: 0.0046
+Nashville: 0.0302
+Tampa: 0.0063
+Pittsburgh: 0.0108
+Cleveland: 0.0104
+Boston: 0.0036
+Atlanta: 0.0057
+Milwaukee: 0.0124
+Portland: 0.0086
+Sacramento: 0.0088
+Inglewood: 0.4691
+Houston: 0.003
+Manchester: 0.0368
+London: 0.0134
+Dublin: 0.043
+Hamburg: 0.0229
+Stockholm: 0.0373
+Paris: 0.0013
+Antwerp: 0.0345
+Amsterdam: 0.0127
+Munich: 0.0089
+Budapest: 0.0069
+Prague: 0.0118
+Vienna: 0.0059
+Cologne: 0.0148
+Bologna: 0.0327
+Madrid: 0.0043
+Lisbon: 0.025
+Toronto: 0.0067
+Chicago: 0.0131
+Inglewood: 1.8947
+
+Fullness of Venues
+San Francisco: 0.9969
+Los Angeles: 0.9761
+Nashville: 0.9746
+Chicago: 1.0
+New York City: 1.0
+Boston: 1.0
+Washington, D.C.: 0.9693
+Irving: 1.0
+Austin: 0.9909
+London: 0.7635
+Glasgow: 1.0
+Berlin: 0.9992
+Amsterdam: 1.0
+Singapore: 1.0
+Sydney: 1.0
+Melbourne: 1.0
+Auckland: 0.8621
+Tokyo: 1.0
+Basel: 1.0
+Paris: 0.8994
+Amsterdam: 1.0
+Antwerp: 1.0
+Stockholm: 1.0
+Copenhagen: 1.0
+Oslo: 1.0
+Oberhausen: 0.9794
+Hamburg: 0.8762
+Munich: 1.0
+Barcelona: 1.0
+Madrid: 1.0
+Milan: 1.0
+Bologna: 1.0
+Mannheim: 1.0
+Birmingham: 1.0
+Manchester: 1.0
+London: 0.8997
+Glasgow: 1.0
+Dublin: 1.0
+Perth: 1.0
+Melbourne: 1.0
+Sydney: 0.9815
+Brisbane: 1.0
+Manila: 1.0
+Singapore: 1.0
+Hong Kong: 1.0
+Bangkok: 1.0
+Kobe: 1.0
+Chiba: 1.0
+Buenos Aires: 1.0
+Santiago: 1.0
+Rio de Janeiro: 1.0
+São Paulo: 1.0
+Mexico City: 1.0
+Dallas: 1.0
+Houston: 1.0
+Sunrise: 1.0
+Duluth: 1.0
+Nashville: 1.0
+Hershey: 1.0
+Philadelphia: 1.0
+Toronto: 1.0
+Boston: 1.0
+New York City: 1.0
+Washington, D.C.: 1.0
+Detroit: 1.0
+Indianapolis: 1.0
+Chicago: 1.0
+Saint Paul: 1.0
+Denver: 1.0
+Vancouver: 1.0
+Seattle: 1.0
+Sacramento: 1.0
+San Jose: 1.0
+Inglewood: 1.0
+Las Vegas: 1.0
+Denver: 1.0
+San Antonio: 1.0
+Dallas: 1.0
+St. Louis: 1.0
+Philadelphia: 1.0
+Washington, D.C.: 1.0
+Detroit: 1.0
+Saint Paul: 1.0
+Chicago: 1.0
+Nashville: 1.0
+New York City: 1.0
+Orlando: 1.0
+Sunrise: 1.0
+Tampa: 1.0
+Raleigh: 1.0
+Pittsburgh: 1.0
+Cleveland: 1.0
+Uncasville: 1.0
+Boston: 1.0
+Atlanta: 1.0
+New York City: 1.0
+Milwaukee: 1.0
+Tacoma: 1.0
+Portland: 1.0
+Sacramento: 1.0
+San Jose: 1.0
+Glendale: 1.0
+San Diego: 1.0
+Inglewood: 1.0
+Houston: 1.0
+North Little Rock: 1.0
+Elmont: 1.0
+Glasgow: 1.0
+Manchester: 1.0
+London: 1.0
+Dublin: 1.0
+Hamburg: 1.0
+Stockholm: 1.0
+Oslo: 1.0
+Paris: 1.0
+Antwerp: 1.0
+Amsterdam: 1.0
+Munich: 1.0
+Budapest: 1.0
+Prague: 1.0
+Vienna: 1.0
+Kraków: 1.0
+Berlin: 1.0
+Cologne: 1.0
+Bologna: 1.0
+Turin: 1.0
+Madrid: 1.0
+Lisbon: 1.0
+Toronto: 1.0
+New York City: 1.0
+Austin: 1.0
+Chicago: 1.0
+Inglewood: 1.0
+
+Comparison to Popularity Scores
+Kentucky Proud Park: 1
+Candlestick Park: 0.950707
+Hippodrome de Montreal: 0.876696
+Estadio do Maracana: 0.865
+Merion Golf Club: 0.855178
+Chambers Bay: 0.838784
+The Museum Of Fine Arts Houston: 0.818204
+Francis Field: 0.817655
+Los Angeles Grand Park: 0.814953
+Joe Louis Arena: 0.809955
+Sao Paulo: 0.8078
+Erin Hills Golf Course: 0.804869
+Oakmont Country Club: 0.79991
+Irvine Meadows Amphitheatre: 0.792719
+White Hart Lane: 0.788866
+Club Nomadic: 0.788657
+Giants Stadium: 0.785724
+iPlay America: 0.783188
+Cottonwood Flats: 0.783059
+Norfolk County Fairgrounds: 0.783019
+Twickenham Stadium: 0.781925
+Huntington Convention Center of Cleveland: 0.780752
+Pinehurst Resort: 0.777942
+Whittier Narrows Recreation Area: 0.777893
+Chattahoochee Hills: 0.772228
+Valhalla Golf Club: 0.772209
+Tower Amphitheater: 0.771753
+Caesars Palace Conference Center: 0.77027
+Floyd Casey Stadium: 0.770174
+Arena Pernambuco: 0.768326
+America's Cup Pavilion: 0.766991
+Izod Center: 0.764111
+Baltusrol Golf Club: 0.757096
+Croke Park: 0.755904
+Etihad Stadium: 0.755893
+BK Festival Grounds: 0.753441
+Estadio Castelao: 0.743129
+Hyde Park: 0.740366
+Tennis Center at Crandon Park: 0.737051
+299 Meserole Street: 0.734903
+Bellerive Country Club: 0.73
+Culler Farms: 0.729337
+RIMAC Field: 0.727723
+Bryant Park: 0.723211
+Shambhala Music Festival: 0.720734
+Pier 70: 0.720063
+Wimbledon Tennis Club Centre Court: 0.72
+Magnetic Hill Park: 0.719619
+Talon Farm and Winery: 0.719576
+Lowes Motor Speedway: 0.718888
+Carrow Road: 0.71749
+Oak Ridge Estate: 0.714345
+Finsbury Park: 0.712102
+Bicentennial Park: 0.711114
+Foster Farms: 0.710708
+Walter E. Washington Convention Center: 0.710316
+The All England Lawn Tennis & Croquet Club - Centre Court: 0.710088
+MetLife Stadium: 0.71
+Sleep Train Arena: 0.709148
+Arena Amazonia: 0.708594
+Midway at Central City Park: 0.707158
+Prince Edward Island Brewing Company: 0.706913
+V Plex: 0.70524
+Jackson Hole Mountain Resort: 0.703229
+MGM Resorts Village: 0.701833
+Principality Stadium Cardiff: 0.701502
+The Commons at Butlers Barracks Historic Site: 0.70125
+Kennedy Space Center: 0.701101
+Canad Inns Stadium: 0.700823
+Valdosta Wake Compound: 0.697564
+Wild Wind Farm: 0.694663
+Glasgow Green: 0.693949
+Congressional Country Club: 0.693926
+Whitman College Athletic Fields: 0.692953
+St James Park: 0.69244
+Fort Armistead Park: 0.692342
+Wartburg College Athletic Fields: 0.691118
+Holtcamp Farms: 0.690181
+Hampden Park National Stadium: 0.689159
+Maple Lane Farms: 0.685515
+Stade Velodrome: 0.684853
+Bijou Park Lake Tahoe: 0.683935
+FAU Soccer Stadium: 0.6834
+Villa Park: 0.683129
+Elland Road: 0.682954
+Murrayfield Stadium: 0.682301
+Twin Creeks Farm: 0.682128
+Brockton Fields at Stanley Park: 0.681352
+Birds Nest Phoenix Open: 0.681178
+Scope Art Arena: 0.680318
+Oracle Park: 0.68
+Madison Square Garden: 0.68
+Wimbledon Tennis Club Court One: 0.68
+Soldier Field: 0.68
+Hillsdale County Fair: 0.679632
+Johnson Stadium at Doubleday Field: 0.678525
+Nissan Pavilion: 0.677764
+Tallahassee Automobile Museum: 0.677727
+New York Hall of Science: 0.675581
+Guggenheim Museum: 0.675576

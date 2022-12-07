@@ -21,7 +21,6 @@ def get_venue():
         city = item['city']
         score = item['score']
         venue_lst.append((venue, city, score))
-    #print(venue_lst)
     return venue_lst
 
 def make_database(database_name):

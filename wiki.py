@@ -87,6 +87,45 @@ def calculations(filename, cur, conn):
     f.write("Harry Styles Concert Attendance Totals Based On City\n")
     for city in city_dict:
         f.write(city+": "+str(city_dict[city])+"\n")
+    
+    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
+    results = cur.fetchall()
+    f.write("\n")
+    f.write("Percentage of City Population Who Attended Concert\n")
+    for result in results:
+        city = result[0]
+        percentage = round((result[2] / result[1]), 4)
+        f.write(city+": "+str(percentage)+"\n")
+
+    #WORKING ON THIS: We want to subtract the scores from the percentages based on city
+    percent_lst = []
+    cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
+    results = cur.fetchall()
+    f.write("\n")
+    f.write("Fullness of Venues\n")
+    for result in results:
+        city = result[0]
+        percent = round((result[1] / result[2]), 4)
+        f.write(city+": "+str(percent)+"\n")
+        percent_lst.append(percent)
+
+    cur.execute("SELECT Location_scores.city, Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
+    results = cur.fetchall()
+    f.write("\n")
+    f.write("Popularity Scores Based on Venue\n")
+    for result in results:
+        city = result[0]
+        venue = result[2]
+        score = result[1]
+        f.write(venue+": "+str(score)+"\n")
+
+    cur.execute("SELECT city, score FROM Location_scores")
+    results = cur.fetchall()
+    f.write("\n")
+    f.write("Popularity Scores in Comparison to Attendance\n")
+    for result in results:
+        city = result[0]
+        score = result[1]
     f.close()
 
 def visualization(cur, conn):

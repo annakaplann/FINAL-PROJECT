@@ -40,45 +40,18 @@ def create_population_table(lst, cur, conn):
             if num2 > num:
                 limit += 1
             conn.commit()
-
 '''
-    city_list = []
-    for city in data:
-        if city not in city_list:
-            city_list.append(city)
-    cur.execute("CREATE TABLE IF NOT EXISTS population_data (city TEXT PRIMARY KEY, population TEXT)")
-    for x in range(len(city_list)):
-        if limit < 25:
-            cur.execute("INSERT OR IGNORE INTO population_data (city, population) VALUES (?, ?)", (x, data[x]))
-            limit += 1
-    conn.commit()
-        # print(pop)
-        # #if limit < 25:
-        # city = data[0]
-        # data[0].append(city)
-        # population = data[1]
-        # data[0].append(population)
-
-        # #rows = cur.execute("SELECT COUNT(*) FROM population_data")
-        # #num = rows.fetchone()[0]
-        # cur.execute("INSERT OR IGNORE INTO population_data (city, population) VALUES (?, ?)", (city, population))
-        # conn.commit()
-    '''
-
-# def calculations(filename, cur, conn):
-#     pop_dict = {}
-#     cur.execute("SELECT city, population FROM population_data")
-#     results = cur.fetchall()
-#     for result in results:
-#         if result[0] not in pop_dict:
-#             pop_dict[result[0]] = 0
-#         pop_dict[result[0]] += result[1]
-#     f = open(filename, "w")
-#     f.write("Population of Cities Based On Concert Venues\n")
-#     for pop in pop_dict:
-#         f.write(pop+": "+str(pop_dict[pop])+"\n")
-#     f.close()
-
+def calculations(filename, cur, conn):
+    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
+    results = cur.fetchall()
+    for result in results:
+        city = result[0]
+        percentage = round((result[2] / result[1]), 4)
+        f = open(filename, "w")
+        f.write("Percentage of City Population Who Attended Concert\n")
+        f.write(city+": "+str(percentage)+"\n")
+    f.close()
+'''
 
 def main():
     cur, conn = setUpDatabase('concerts.db')
@@ -104,7 +77,7 @@ def main():
     'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
     create_population_table(data,cur,conn)
-    # calculations("calculations.txt", cur, conn)
+    #calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())
     # file.close()
