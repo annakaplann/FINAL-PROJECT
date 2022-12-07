@@ -41,7 +41,7 @@ def create_population_table(lst, cur, conn):
             if num2 > num:
                 limit += 1
             conn.commit()
-'''
+
 def visualization(cur, conn):
     # cur.execute("SELECT city, population FROM population_data")
     calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
@@ -67,7 +67,7 @@ def visualization(cur, conn):
     plt.colorbar
     # plt.show()
     plt.savefig('PercentCalculations')
-'''
+
 
 def main():
     cur, conn = setUpDatabase('concerts.db')

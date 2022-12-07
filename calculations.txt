@@ -417,7 +417,7 @@ Tallahassee Automobile Museum: 0.677727
 New York Hall of Science: 0.675581
 Guggenheim Museum: 0.675576
 
-Popularity Scores in Comparison to Attendance
+Popularity Scores in Comparison to Fullness of Harry's Shows
 San Francisco: 0.3169
 Los Angeles: 0.1611
 Chicago: 0.32

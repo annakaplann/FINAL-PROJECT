@@ -99,7 +99,6 @@ def calculations(filename, cur, conn):
         f.write(city+": "+str(percentage)+"\n")
         percentages[city] = percentage
 
-    #WORKING ON THIS: We want to subtract the scores from the percentages based on city
     percent_dict = {}
     cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
     results = cur.fetchall()
@@ -124,27 +123,24 @@ def calculations(filename, cur, conn):
         score_dict[city] = score
 
     f.write("\n")
-    f.write("Popularity Scores in Comparison to Attendance\n")
+    f.write("Popularity Scores in Comparison to Fullness of Harry's Shows\n")
     for city in percent_dict:
         for city2 in score_dict:
             if city == city2:
                 comparison = round((percent_dict[city] - score_dict[city]), 4)
                 f.write(city+": "+str(comparison)+"\n")
+    return city_dict
     f.close()
 
-def visualization(cur, conn):
-    cur.execute("SELECT city, attendance FROM Harry_Styles")
-    data = cur.fetchall()
-    data2 = sorted(data, key = lambda x: x[1], reverse=True)
-    conn.commit()
-    
+def attendance_visualization(cur, conn):
+    values = calculations("calculations.txt", cur, conn)
+    sorted_values = sorted(values.items(), key = lambda x: x[1], reverse=True)
     city_list = []
     attendance_list = []
-    for item in data2:
+    for item in sorted_values:
         if len(city_list) < 12:
             city_list.append(item[0])
             attendance_list.append(item[1])
-    
     plt.figure()
     plt.bar(city_list, attendance_list, color = 'hotpink')
     plt.title("Harry Styles Total Concert Attendance In Top 10 Cities")
@@ -155,12 +151,10 @@ def visualization(cur, conn):
     plt.colorbar
     plt.show()
 
-
 def main():
     harry_data = concert_data()
     cur, conn = make_database('concerts.db')
     make_table(harry_data, cur, conn)
-    calculations("calculations.txt", cur, conn)
-    #visualization(cur, conn)
+    attendance_visualization(cur, conn)
 
 main()
