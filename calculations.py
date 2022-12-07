@@ -54,27 +54,26 @@ def score_calculations(filename, cur, conn):
         f.write(city+": "+str(percent)+"\n")
         percent_dict[city] = percent
 
-    cur.execute("SELECT Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
+    score_dict = {}
+    cur.execute("SELECT Location_scores.city, Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
     results = cur.fetchall()
     f.write("\n")
     f.write("Popularity Scores Based on Venue\n")
     for result in results:
-        score = result[0]
-        venue = result[1]
-        f.write(venue+": "+str(score)+"\n")
-    f.close()
-
-    '''
-    cur.execute("SELECT city, score FROM Location_scores")
-    results = cur.fetchall()
-    f.write("\n")
-    f.write("Popularity Scores in Comparison to Attendance\n")
-    for result in results:
         city = result[0]
         score = result[1]
-    f.close()
-   
+        venue = result[2]
+        f.write(venue+": "+str(score)+"\n")
+        score_dict[city] = score
 
+    f.write("\n")
+    f.write("Popularity Scores in Comparison to Attendance\n")
+    print(percent_dict)
+    print(score_dict)
+    f.close()
+
+    
+'''
 def visualizations(cur, conn):
 
     cur.execute("SELECT city, attendance FROM Harry_Styles")
