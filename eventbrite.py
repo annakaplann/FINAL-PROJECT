@@ -43,30 +43,42 @@ def create_population_table(lst, cur, conn):
             conn.commit()
 
 def visualization(cur, conn):
+    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
+    results = cur.fetchall()
+    percentages = {}
+    for result in results:
+        city = result[0]
+        percentage = round((result[2] / result[1]), 4)
+        percentages[city] = percentage
+    sorted_percentages = sorted(percentages.items(), key = lambda x: x[1], reverse=True)
+    city_list = []
+    percentages_list = []
+    for item in sorted_percentages:
+        if len(city_list) < 12:
+            city_list.append(item[0])
+            percentages_list.append(item[1])
     # cur.execute("SELECT city, population FROM population_data")
-    calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
+    #calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
 
     # data = cur.fetchall()
-    data2 = sorted(calc_dict.items(), key = lambda x: x[1], reverse=True)
+    #data2 = sorted(calc_dict.items(), key = lambda x: x[1], reverse=True)
     # conn.commit()
     
-    city_list = []
-    population_list = []
-    for city, percent in data2:
-        if len(city_list) < 10:
-            city_list.append(city)
-            population_list.append(percent)
+    #for city, percent in data2:
+        #if len(city_list) < 10:
+            #city_list.append(city)
+            #population_list.append(percent)
     
     plt.figure()
-    plt.bar(city_list, population_list, color = 'lightblue')
-    plt.title("Percent Calculation of Concert Attendance by City Population")
+    plt.bar(city_list, percentages_list, color = 'lightblue')
+    plt.title("Proportion of City Population That Attended Concert")
     plt.xlabel("Cities")
-    plt.ylabel("Population")
+    plt.ylabel("Proportion")
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
-    # plt.show()
-    plt.savefig('PercentCalculations')
+    plt.show()
+    #plt.savefig('PercentCalculations')
 
 
 def main():
@@ -93,7 +105,7 @@ def main():
     'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
     create_population_table(data,cur,conn)
-    #visualization(cur, conn)
+    visualization(cur, conn)
     #calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())
