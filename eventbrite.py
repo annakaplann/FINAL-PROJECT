@@ -101,7 +101,7 @@ def main():
     'Salvador', 'Dubai', 'Depok', 'Bursa', 'Minsk',
     'Vienna', 'Tanger', 'Rabat', 'Jilin', 'Rosario',
     'Harare', 'Natal', 'Ottawa', 'Zurich', 'Sofia', 
-    'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan']
+    'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
     create_population_table(data,cur,conn)
     # calculations("calculations.txt", cur, conn)
