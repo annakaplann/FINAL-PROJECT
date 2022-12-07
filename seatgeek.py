@@ -98,7 +98,7 @@ def make_visualization(cur, conn):
     plt.bar(city_list, comparison_list, color = 'yellow')
     plt.title("Popularity Scores in Comparison to Fullness of Harry's Shows")
     plt.xlabel("Cities")
-    plt.ylabel("Popularity Scores")
+    plt.ylabel("Popularity Scores Compared to Fullness of Shows")
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
