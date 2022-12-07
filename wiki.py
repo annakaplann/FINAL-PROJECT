@@ -75,7 +75,8 @@ def make_table(data, cur, conn):
                 limit += 1
             conn.commit()
 
-def calculations(filename, cur, conn):
+
+def percent_calculations(filename, cur, conn):
     city_dict = {}
     cur.execute("SELECT city, attendance FROM Harry_Styles")
     results = cur.fetchall()
@@ -92,12 +93,22 @@ def calculations(filename, cur, conn):
     results = cur.fetchall()
     f.write("\n")
     f.write("Percentage of City Population Who Attended Concert\n")
+    percentages = {}
     for result in results:
         city = result[0]
         percentage = round((result[2] / result[1]), 4)
+        print(percentage)
+        print(result[1])
         f.write(city+": "+str(percentage)+"\n")
+        percentages[city] = percentage
+    return percentages
+
+
+
+def calculations(filename, cur, conn):
 
     #WORKING ON THIS: We want to subtract the scores from the percentages based on city
+    f = open(filename, "w")
     percent_lst = []
     cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
     results = cur.fetchall()
@@ -158,6 +169,7 @@ def main():
     cur, conn = make_database('concerts.db')
     make_table(harry_data, cur, conn)
     calculations("calculations.txt", cur, conn)
+    percent_calculations("calculations.txt", cur, conn)
     file = open("calculations.txt", "r")
     file.close()
     visualization(cur, conn)

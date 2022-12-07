@@ -2,7 +2,8 @@ import json
 import os
 import requests
 import sqlite3
-import matplotlib
+import matplotlib.pyplot as plt
+import wiki
 
 API_KEY = "ofpPfVqgtyHp/rCepavDTg==Rk0NxgPw543VyZez"
 
@@ -53,6 +54,32 @@ def calculations(filename, cur, conn):
     f.close()
 '''
 
+def visualization(cur, conn):
+    # cur.execute("SELECT city, population FROM population_data")
+    calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
+
+    # data = cur.fetchall()
+    data2 = sorted(calc_dict.items(), key = lambda x: x[1], reverse=True)
+    # conn.commit()
+    
+    city_list = []
+    population_list = []
+    for city, percent in data2:
+        if len(city_list) < 10:
+            city_list.append(city)
+            population_list.append(percent)
+    
+    plt.figure()
+    plt.bar(city_list, population_list, color = 'lightblue')
+    plt.title("Percent Calculation of Concert Attendance by City Population")
+    plt.xlabel("Cities")
+    plt.ylabel("Population")
+    plt.xticks(rotation = 45)
+    plt.tight_layout()
+    plt.colorbar
+    # plt.show()
+    plt.savefig('PercentCalculations')
+
 def main():
     cur, conn = setUpDatabase('concerts.db')
     city_list = ['San Francisco', 'Los Angeles', 'Nashville', 'Chicago', 'New York', 
@@ -77,6 +104,7 @@ def main():
     'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
     create_population_table(data,cur,conn)
+    visualization(cur, conn)
     #calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())
