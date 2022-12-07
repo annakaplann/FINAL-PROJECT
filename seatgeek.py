@@ -2,7 +2,7 @@ import json
 import os
 import requests
 import sqlite3
-import matplotlib
+import matplotlib.pyplot as plt
 import re
 import sys
 
@@ -64,6 +64,45 @@ def make_location_table(data, cur, conn):
             if num2 > num:
                 limit += 1
             conn.commit()
+    
+def make_visualization(cur, conn):
+    percent_dict = {}
+    cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
+    results = cur.fetchall()
+    for result in results:
+        city = result[0]
+        percent = round((result[1]/result[2]), 4)
+        percent_dict[city] = percent
+    score_dict = {}
+    cur.execute("SELECT Location_scores.city, Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
+    results = cur.fetchall()
+    for result in results:
+        city = result[0]
+        score = result[1]
+        venue = result[2]
+        score_dict[city] = score
+    comparison_dict = {}
+    for city in percent_dict:
+        for city2 in score_dict:
+            if city == city2:
+                comparison = round((percent_dict[city] - score_dict[city]), 4)
+                comparison_dict[city] = comparison
+    sorted_comparisons = sorted(comparison_dict.items(), key = lambda x: x[1], reverse = True)
+    city_list = []
+    comparison_list = []
+    for item in sorted_comparisons:
+        if len(city_list) < 12:
+            city_list.append(item[0])
+            comparison_list.append(item[1])
+    plt.figure()
+    plt.bar(city_list, comparison_list, color = 'yellow')
+    plt.title("Popularity Scores in Comparison to Fullness of Harry's Shows")
+    plt.xlabel("Cities")
+    plt.ylabel("Popularity Scores")
+    plt.xticks(rotation = 45)
+    plt.tight_layout()
+    plt.colorbar
+    plt.show()
 
 
 def main():
@@ -71,6 +110,7 @@ def main():
     cur, conn = make_database("concerts.db")
     make_venue_id_table(venue_data, cur, conn)
     make_location_table(venue_data, cur, conn)
+    make_visualization(cur, conn)
     print("Done")
     
 
