@@ -42,18 +42,6 @@ def create_population_table(lst, cur, conn):
                 limit += 1
             conn.commit()
 '''
-def calculations(filename, cur, conn):
-    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
-    results = cur.fetchall()
-    for result in results:
-        city = result[0]
-        percentage = round((result[2] / result[1]), 4)
-        f = open(filename, "w")
-        f.write("Percentage of City Population Who Attended Concert\n")
-        f.write(city+": "+str(percentage)+"\n")
-    f.close()
-'''
-
 def visualization(cur, conn):
     # cur.execute("SELECT city, population FROM population_data")
     calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
@@ -79,6 +67,7 @@ def visualization(cur, conn):
     plt.colorbar
     # plt.show()
     plt.savefig('PercentCalculations')
+'''
 
 def main():
     cur, conn = setUpDatabase('concerts.db')
@@ -104,7 +93,7 @@ def main():
     'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
     create_population_table(data,cur,conn)
-    visualization(cur, conn)
+    #visualization(cur, conn)
     #calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())

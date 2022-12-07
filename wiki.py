@@ -75,7 +75,7 @@ def make_table(data, cur, conn):
                 limit += 1
             conn.commit()
 
-
+'''
 def percent_calculations(filename, cur, conn):
     city_dict = {}
     cur.execute("SELECT city, attendance FROM Harry_Styles")
@@ -102,7 +102,6 @@ def percent_calculations(filename, cur, conn):
         f.write(city+": "+str(percentage)+"\n")
         percentages[city] = percentage
     return percentages
-
 
 
 def calculations(filename, cur, conn):
@@ -161,17 +160,16 @@ def visualization(cur, conn):
     plt.tight_layout()
     plt.colorbar
     plt.show()
-
+'''
 
 
 def main():
     harry_data = concert_data()
     cur, conn = make_database('concerts.db')
     make_table(harry_data, cur, conn)
-    calculations("calculations.txt", cur, conn)
-    percent_calculations("calculations.txt", cur, conn)
-    file = open("calculations.txt", "r")
-    file.close()
-    visualization(cur, conn)
+    #calculations("calculations.txt", cur, conn)
+    #percent_calculations("calculations.txt", cur, conn)
+    #file.close()
+    #visualization(cur, conn)
 
 main()
