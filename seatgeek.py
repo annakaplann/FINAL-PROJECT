@@ -102,7 +102,7 @@ def make_visualization(cur, conn):
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
-    plt.show()
+    plt.savefig('PopularityScores')
 
 
 def main():

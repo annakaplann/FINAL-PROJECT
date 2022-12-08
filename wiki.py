@@ -149,7 +149,7 @@ def attendance_visualization(cur, conn):
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
-    plt.show()
+    plt.savefig('AttendanceTotals')
 
 def main():
     harry_data = concert_data()
