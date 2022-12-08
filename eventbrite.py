@@ -24,17 +24,35 @@ def get_population(city_list):
         lst.append([name, population])
     return lst     
 
- 
+def make_city_id_table(data, cur, conn):
+    city_list = []
+    limit = 0
+    for city in data:
+        if city[0] not in city_list:
+            city_list.append(city[0])
+    #cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT)")
+    for x in range(len(city_list)):
+        if limit < 25:
+            rows = cur.execute("SELECT COUNT(*) FROM City_id")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO City_id (city_id, city) VALUES (?, ?)", (None,city_list[x]))
+            rows2 = cur.execute("SELECT COUNT(*) FROM City_id")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
+            conn.commit()
+
 def create_population_table(lst, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS population_data (city TEXT PRIMARY KEY, population NUMBER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS population_data (city_id INTEGER PRIMARY KEY, population NUMBER)")
     limit = 0
     for city in lst:
         if limit < 25:
-            city_name = city[0]
+            cur.execute("SELECT city_id FROM City_id WHERE city = ?", (city[0],))
+            city_id = int(cur.fetchone()[0])
             population = city[1]
             rows = cur.execute("SELECT COUNT(*) FROM population_data")
             num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO population_data (city, population) VALUES (?, ?)", (str(city_name), str(population)))
+            cur.execute("INSERT OR IGNORE INTO population_data (city_id, population) VALUES (?, ?)", (city_id, str(population)))
             rows2 = cur.execute("SELECT COUNT(*) FROM population_data")
             num2 = rows2.fetchone()[0]
             if num2 > num:
@@ -102,8 +120,9 @@ def main():
     'Harare', 'Natal', 'Ottawa', 'Zurich', 'Sofia', 
     'Omsk', 'Ufa', 'Cologne', 'Chihuahua', 'Leshan', 'Las Vegas']
     data = get_population(city_list)
+    make_city_id_table(data, cur, conn)
     create_population_table(data,cur,conn)
-    visualization(cur, conn)
+    #visualization(cur, conn)
     #calculations("calculations.txt", cur, conn)
     # file = open("calculations.txt", "r")
     # print(file.read())

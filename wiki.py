@@ -57,18 +57,37 @@ def make_database(database_name):
     cur = conn.cursor()
     return cur, conn
 
+def make_city_id_table(data, cur, conn):
+    city_list = []
+    for city in data:
+        if city[1] not in city_list:
+            city_list.append(city[1])
+    #cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT)")
+    limit = 0
+    for x in range(len(city_list)):
+        if limit < 25:
+            rows = cur.execute("SELECT COUNT(*) FROM City_id")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO City_id (city_id, city) VALUES (?, ?)", (None,city_list[x]))
+            rows2 = cur.execute("SELECT COUNT(*) FROM City_id")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
+            conn.commit()
+
 def make_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Harry_Styles (date TEXT PRIMARY KEY, city TEXT, attendance INTEGER, capacity INTEGER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Harry_Styles (date TEXT PRIMARY KEY, city_id INTEGER, attendance INTEGER, capacity INTEGER)")
     limit = 0
     for concert in data:
         if limit < 25:
             date = concert[0]
-            city = concert[1]
+            cur.execute("SELECT city_id FROM City_id WHERE city = ?", (concert[1],))
+            city_id = int(cur.fetchone()[0])
             attendance = concert[2]
             capacity = concert[3]
             rows = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
             num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO Harry_Styles (date, city, attendance, capacity) VALUES (?, ?, ?, ?)", (date, city, attendance, capacity))
+            cur.execute("INSERT OR IGNORE INTO Harry_Styles (date, city_id, attendance, capacity) VALUES (?, ?, ?, ?)", (date, city_id, attendance, capacity))
             rows2 = cur.execute("SELECT COUNT(*) FROM Harry_Styles")
             num2 = rows2.fetchone()[0]
             if num2 > num:
@@ -154,7 +173,8 @@ def attendance_visualization(cur, conn):
 def main():
     harry_data = concert_data()
     cur, conn = make_database('concerts.db')
+    make_city_id_table(harry_data, cur, conn)
     make_table(harry_data, cur, conn)
-    attendance_visualization(cur, conn)
+    #attendance_visualization(cur, conn)
 
 main()

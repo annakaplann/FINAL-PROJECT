@@ -47,18 +47,38 @@ def make_venue_id_table(data, cur, conn):
                 limit += 1
             conn.commit()
 
+def make_city_id_table(data, cur, conn):
+    city_list = []
+    limit = 0
+    for city in data:
+        if city[1] not in city_list:
+            city_list.append(city[1])
+    cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT UNIQUE)")
+    for x in range(len(city_list)):
+        #print(city_list[x])
+        if limit < 25:
+            rows = cur.execute("SELECT COUNT(*) FROM City_id")
+            num = rows.fetchone()[0]
+            cur.execute("INSERT OR IGNORE INTO City_id VALUES (?, ?)", (None, city_list[x]))
+            rows2 = cur.execute("SELECT COUNT(*) FROM City_id")
+            num2 = rows2.fetchone()[0]
+            if num2 > num:
+                limit += 1
+            conn.commit()
+
 def make_location_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (venue_id INTEGER PRIMARY KEY, city TEXT, score NUMBER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (venue_id INTEGER PRIMARY KEY, city_id INTEGER, score NUMBER)")
     limit = 0
     for concert in data:
        if limit < 25:
             cur.execute("SELECT venue_id FROM Venue_id WHERE venue = ?", (concert[0],))
             venue_id = int(cur.fetchone()[0])
-            city = concert[1]
+            cur.execute("SELECT city_id FROM City_id WHERE city = ?", (concert[1],))
+            city_id = int(cur.fetchone()[0])
             score = concert[2]
             rows = cur.execute("SELECT COUNT(*) FROM Location_scores")
             num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO Location_scores (venue_id, city, score) values(?, ?, ?)", (venue_id, city, score))
+            cur.execute("INSERT OR IGNORE INTO Location_scores (venue_id, city_id, score) values(?, ?, ?)", (venue_id, city_id, score))
             rows2 = cur.execute("SELECT COUNT(*) FROM Location_scores")
             num2 = rows2.fetchone()[0]
             if num2 > num:
@@ -109,8 +129,9 @@ def main():
     venue_data = get_venue()
     cur, conn = make_database("concerts.db")
     make_venue_id_table(venue_data, cur, conn)
+    make_city_id_table(venue_data, cur, conn)
     make_location_table(venue_data, cur, conn)
-    make_visualization(cur, conn)
+    #make_visualization(cur, conn)
     print("Done")
     
 
