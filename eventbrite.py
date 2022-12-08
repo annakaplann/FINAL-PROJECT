@@ -73,7 +73,7 @@ def visualization(cur, conn):
     plt.bar(city_list, percentages_list, color = 'lightblue')
     plt.title("Proportion of City Population That Attended Concert")
     plt.xlabel("Cities")
-    plt.ylabel("Proportion")
+    plt.ylabel("Population Proportion")
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
