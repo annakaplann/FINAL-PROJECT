@@ -3,7 +3,6 @@ import os
 import requests
 import sqlite3
 import matplotlib.pyplot as plt
-import wiki
 
 API_KEY = "ofpPfVqgtyHp/rCepavDTg==Rk0NxgPw543VyZez"
 
@@ -77,8 +76,7 @@ def visualization(cur, conn):
     plt.xticks(rotation = 45)
     plt.tight_layout()
     plt.colorbar
-    plt.show()
-    #plt.savefig('PercentCalculations')
+    plt.savefig('PercentCalculations')
 
 
 def main():

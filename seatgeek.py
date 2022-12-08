@@ -95,7 +95,7 @@ def make_visualization(cur, conn):
             city_list.append(item[0])
             comparison_list.append(item[1])
     plt.figure()
-    plt.bar(city_list, comparison_list, color = 'yellow')
+    plt.bar(city_list, comparison_list, color = 'brown')
     plt.title("Popularity Scores in Comparison to Fullness of Harry's Shows")
     plt.xlabel("Cities")
     plt.ylabel("Popularity Scores Compared to Fullness of Shows")
