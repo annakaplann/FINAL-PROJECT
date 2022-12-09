@@ -149,8 +149,8 @@ def calculations(filename, cur, conn):
             if city == city2:
                 comparison = round((percent_dict[city] - score_dict[city]), 4)
                 f.write(city+": "+str(comparison)+"\n")
-    return city_dict
     f.close()
+    return city_dict
 
 def attendance_visualization(cur, conn):
     values = calculations("calculations.txt", cur, conn)
