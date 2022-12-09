@@ -93,45 +93,92 @@ Los Angeles: 0.0004
 Nashville: 0.0021
 Chicago: 0.0004
 Boston: 0.0008
+London: 0.0009
 Amsterdam: 0.0058
 Singapore: 0.0008
 Melbourne: 0.0004
+Auckland: 0.0052
 Tokyo: 0.0001
 Paris: 0.0011
 Amsterdam: 0.0127
+Antwerp: 0.023
 Stockholm: 0.0088
 Copenhagen: 0.0098
+Oberhausen: 0.0502
 Hamburg: 0.0057
 Munich: 0.0077
 Barcelona: 0.0023
 Madrid: 0.0037
 Milan: 0.0077
+Bologna: 0.0326
+Mannheim: 0.0291
+Birmingham: 0.0044
+Manchester: 0.005
+London: 0.0027
 Dublin: 0.0108
+Perth: 0.0045
 Melbourne: 0.0018
+Brisbane: 0.0042
+Manila: 0.0004
 Singapore: 0.0006
+Hong Kong: 0.0006
+Kobe: 0.0031
+Chiba: 0.0091
 Santiago: 0.0018
+Mexico City: 0.0016
 Dallas: 0.0029
+Houston: 0.0026
+Duluth: 0.1005
 Nashville: 0.0171
+Hershey: 1.0637
+Philadelphia: 0.003
+Toronto: 0.0032
 Boston: 0.0034
 Detroit: 0.0045
+Indianapolis: 0.0098
 Chicago: 0.0021
 Denver: 0.0047
 Vancouver: 0.0062
 Seattle: 0.0036
+Sacramento: 0.0077
+Inglewood: 0.3116
+Las Vegas: 0.0064
 Denver: 0.006
 Dallas: 0.0031
+St. Louis: 0.0085
+Philadelphia: 0.0034
 Detroit: 0.0052
 Chicago: 0.0046
 Nashville: 0.0302
+Tampa: 0.0063
+Pittsburgh: 0.0108
+Cleveland: 0.0104
 Boston: 0.0036
+Atlanta: 0.0057
+Milwaukee: 0.0124
+Portland: 0.0086
+Sacramento: 0.0088
+Inglewood: 0.4691
+Houston: 0.003
+Manchester: 0.0368
+London: 0.0134
 Dublin: 0.043
 Hamburg: 0.0229
 Stockholm: 0.0373
 Paris: 0.0013
+Antwerp: 0.0345
 Amsterdam: 0.0127
 Munich: 0.0089
+Budapest: 0.0069
+Prague: 0.0118
+Vienna: 0.0059
+Cologne: 0.0148
+Bologna: 0.0327
 Madrid: 0.0043
+Lisbon: 0.025
+Toronto: 0.0067
 Chicago: 0.0131
+Inglewood: 1.8947
 
 Fullness of Venues
 San Francisco: 0.9969
@@ -344,18 +391,46 @@ Glasgow Green: 0.693949
 Congressional Country Club: 0.693926
 Whitman College Athletic Fields: 0.692953
 St James Park: 0.69244
+Fort Armistead Park: 0.692342
+Wartburg College Athletic Fields: 0.691118
+Holtcamp Farms: 0.690181
+Soldier Field: 0.69
+Hampden Park National Stadium: 0.689159
+Maple Lane Farms: 0.685515
+Stade Velodrome: 0.684853
+Bijou Park Lake Tahoe: 0.683935
+FAU Soccer Stadium: 0.6834
+Villa Park: 0.683129
+Elland Road: 0.682954
+Murrayfield Stadium: 0.682301
+Twin Creeks Farm: 0.682128
+Brockton Fields at Stanley Park: 0.681352
+Birds Nest Phoenix Open: 0.681178
+Scope Art Arena: 0.680318
+Oracle Park: 0.68
+Gillette Stadium: 0.68
+Madison Square Garden: 0.68
+Levi's Stadium: 0.68
+Wimbledon Tennis Club Court One: 0.68
+Hillsdale County Fair: 0.679632
+Johnson Stadium at Doubleday Field: 0.678525
+Nissan Pavilion: 0.677764
+Tallahassee Automobile Museum: 0.677727
 
 Popularity Scores in Comparison to Fullness of Harry's Shows
-San Francisco: 0.2768
+San Francisco: 0.3169
 Los Angeles: 0.1611
+Chicago: 0.31
 Austin: 0.2282
-London: 0.2879
-Glasgow: 0.3061
+London: 0.32
+Glasgow: 0.3108
+Birmingham: 0.3169
 Manchester: 0.2441
 Dublin: 0.2441
 Rio de Janeiro: 0.135
 Houston: 0.2113
 Detroit: 0.19
+Vancouver: 0.3186
 Sacramento: 0.2909
 Las Vegas: 0.2982
 Orlando: 0.2989

@@ -30,7 +30,7 @@ def make_city_id_table(data, cur, conn):
     for city in data:
         if city[0] not in city_list:
             city_list.append(city[0])
-    #cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT UNIQUE)")
     for x in range(len(city_list)):
         if limit < 25:
             rows = cur.execute("SELECT COUNT(*) FROM City_id")
@@ -60,11 +60,12 @@ def create_population_table(lst, cur, conn):
             conn.commit()
 
 def visualization(cur, conn):
-    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
+    cur.execute("SELECT population_data.city_id, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city_id == population_data.city_id")
     results = cur.fetchall()
     percentages = {}
     for result in results:
-        city = result[0]
+        cur.execute("SELECT city FROM City_id WHERE city_id = ?", (result[0],))
+        city= cur.fetchone()[0]
         percentage = round((result[2] / result[1]), 4)
         percentages[city] = percentage
     sorted_percentages = sorted(percentages.items(), key = lambda x: x[1], reverse=True)
@@ -74,17 +75,6 @@ def visualization(cur, conn):
         if len(city_list) < 12:
             city_list.append(item[0])
             percentages_list.append(item[1])
-    # cur.execute("SELECT city, population FROM population_data")
-    #calc_dict = wiki.percent_calculations("calculations.txt", cur, conn)
-
-    # data = cur.fetchall()
-    #data2 = sorted(calc_dict.items(), key = lambda x: x[1], reverse=True)
-    # conn.commit()
-    
-    #for city, percent in data2:
-        #if len(city_list) < 10:
-            #city_list.append(city)
-            #population_list.append(percent)
     
     plt.figure()
     plt.bar(city_list, percentages_list, color = 'lightblue')
@@ -122,11 +112,7 @@ def main():
     data = get_population(city_list)
     make_city_id_table(data, cur, conn)
     create_population_table(data,cur,conn)
-    #visualization(cur, conn)
-    #calculations("calculations.txt", cur, conn)
-    # file = open("calculations.txt", "r")
-    # print(file.read())
-    # file.close()
+    visualization(cur, conn)
     print('Done')
     
 main()

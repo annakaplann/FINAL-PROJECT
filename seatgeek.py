@@ -29,24 +29,6 @@ def make_database(database_name):
     cur = conn.cursor()
     return cur, conn
 
-def make_venue_id_table(data, cur, conn):
-    venue_list = []
-    limit = 0
-    for venue in data:
-        if venue[0] not in venue_list:
-            venue_list.append(venue[0])
-    cur.execute("CREATE TABLE IF NOT EXISTS Venue_id (venue_id INTEGER PRIMARY KEY, venue TEXT)")
-    for x in range(len(venue_list)):
-        if limit < 25:
-            rows = cur.execute("SELECT COUNT(*) FROM Venue_id")
-            num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO Venue_id (venue_id, venue) VALUES (?, ?)", (x,venue_list[x]))
-            rows2 = cur.execute("SELECT COUNT(*) FROM Venue_id")
-            num2 = rows2.fetchone()[0]
-            if num2 > num:
-                limit += 1
-            conn.commit()
-
 def make_city_id_table(data, cur, conn):
     city_list = []
     limit = 0
@@ -67,18 +49,17 @@ def make_city_id_table(data, cur, conn):
             conn.commit()
 
 def make_location_table(data, cur, conn):
-    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (venue_id INTEGER PRIMARY KEY, city_id INTEGER, score NUMBER)")
+    cur.execute("CREATE TABLE IF NOT EXISTS Location_scores (venue TEXT PRIMARY KEY, city_id INTEGER, score NUMBER)")
     limit = 0
     for concert in data:
        if limit < 25:
-            cur.execute("SELECT venue_id FROM Venue_id WHERE venue = ?", (concert[0],))
-            venue_id = int(cur.fetchone()[0])
+            venue = concert[0]
             cur.execute("SELECT city_id FROM City_id WHERE city = ?", (concert[1],))
             city_id = int(cur.fetchone()[0])
             score = concert[2]
             rows = cur.execute("SELECT COUNT(*) FROM Location_scores")
             num = rows.fetchone()[0]
-            cur.execute("INSERT OR IGNORE INTO Location_scores (venue_id, city_id, score) values(?, ?, ?)", (venue_id, city_id, score))
+            cur.execute("INSERT OR IGNORE INTO Location_scores (venue, city_id, score) values(?, ?, ?)", (venue, city_id, score))
             rows2 = cur.execute("SELECT COUNT(*) FROM Location_scores")
             num2 = rows2.fetchone()[0]
             if num2 > num:
@@ -87,14 +68,14 @@ def make_location_table(data, cur, conn):
     
 def make_visualization(cur, conn):
     percent_dict = {}
-    cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
+    cur.execute("SELECT City_id.city, Harry_Styles.attendance, Harry_Styles.capacity FROM City_id JOIN Harry_Styles ON City_id.city_id == Harry_Styles.city_id")
     results = cur.fetchall()
     for result in results:
         city = result[0]
         percent = round((result[1]/result[2]), 4)
         percent_dict[city] = percent
     score_dict = {}
-    cur.execute("SELECT Location_scores.city, Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
+    cur.execute("SELECT City_id.city, Location_scores.score, Location_scores.venue FROM City_id JOIN Location_scores ON City_id.city_id == Location_scores.city_id")
     results = cur.fetchall()
     for result in results:
         city = result[0]
@@ -114,6 +95,7 @@ def make_visualization(cur, conn):
         if len(city_list) < 12:
             city_list.append(item[0])
             comparison_list.append(item[1])
+
     plt.figure()
     plt.bar(city_list, comparison_list, color = 'brown')
     plt.title("Popularity Scores in Comparison to Fullness of Harry's Shows")
@@ -128,10 +110,9 @@ def make_visualization(cur, conn):
 def main():
     venue_data = get_venue()
     cur, conn = make_database("concerts.db")
-    make_venue_id_table(venue_data, cur, conn)
     make_city_id_table(venue_data, cur, conn)
     make_location_table(venue_data, cur, conn)
-    #make_visualization(cur, conn)
+    make_visualization(cur, conn)
     print("Done")
     
 

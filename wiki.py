@@ -62,7 +62,7 @@ def make_city_id_table(data, cur, conn):
     for city in data:
         if city[1] not in city_list:
             city_list.append(city[1])
-    #cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT)")
+    cur.execute("CREATE TABLE IF NOT EXISTS City_id (city_id INTEGER PRIMARY KEY, city TEXT UNIQUE)")
     limit = 0
     for x in range(len(city_list)):
         if limit < 25:
@@ -96,7 +96,7 @@ def make_table(data, cur, conn):
 
 def calculations(filename, cur, conn):
     city_dict = {}
-    cur.execute("SELECT city, attendance FROM Harry_Styles")
+    cur.execute("SELECT City_id.city, Harry_Styles.attendance FROM City_id JOIN Harry_Styles ON City_id.city_id == Harry_Styles.city_id")
     results = cur.fetchall()
     for result in results:
         if result[0] not in city_dict:
@@ -107,19 +107,20 @@ def calculations(filename, cur, conn):
     for city in city_dict:
         f.write(city+": "+str(city_dict[city])+"\n")
 
-    cur.execute("SELECT population_data.city, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city == population_data.city")
+    cur.execute("SELECT population_data.city_id, population_data.population, Harry_Styles.attendance FROM population_data JOIN Harry_Styles ON Harry_Styles.city_id == population_data.city_id")
     results = cur.fetchall()
     f.write("\n")
     f.write("Proportion of City Population Who Attended Concert\n")
     percentages = {}
     for result in results:
-        city = result[0]
+        cur.execute("SELECT city FROM City_id WHERE city_id = ?", (result[0],))
+        city= cur.fetchone()[0]
         percentage = round((result[2] / result[1]), 4)
         f.write(city+": "+str(percentage)+"\n")
         percentages[city] = percentage
 
     percent_dict = {}
-    cur.execute("SELECT city, attendance, capacity FROM Harry_Styles")
+    cur.execute("SELECT City_id.city, Harry_Styles.attendance, Harry_Styles.capacity FROM City_id JOIN Harry_Styles ON City_id.city_id == Harry_Styles.city_id")
     results = cur.fetchall()
     f.write("\n")
     f.write("Fullness of Venues\n")
@@ -130,7 +131,7 @@ def calculations(filename, cur, conn):
         percent_dict[city] = percent
 
     score_dict = {}
-    cur.execute("SELECT Location_scores.city, Location_scores.score, Venue_id.venue FROM Location_scores JOIN Venue_id ON Location_scores.venue_id == Venue_id.venue_id")
+    cur.execute("SELECT City_id.city, Location_scores.score, Location_scores.venue FROM City_id JOIN Location_scores ON City_id.city_id == Location_scores.city_id")
     results = cur.fetchall()
     f.write("\n")
     f.write("Popularity Scores Based on Venue\n")
@@ -175,6 +176,7 @@ def main():
     cur, conn = make_database('concerts.db')
     make_city_id_table(harry_data, cur, conn)
     make_table(harry_data, cur, conn)
-    #attendance_visualization(cur, conn)
+    calculations("calculations.txt", cur, conn)
+    attendance_visualization(cur, conn)
 
 main()
